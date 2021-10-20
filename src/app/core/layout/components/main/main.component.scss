@@ -1,0 +1,11 @@
+@import 'stylesheets/utils';
+
+:host {
+  flex-grow: 1;
+  //padding: 1rem 0 1rem 1rem;
+  flex-direction: column;
+}
+
+main {
+  padding: 1rem;
+}

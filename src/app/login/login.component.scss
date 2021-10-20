@@ -1,0 +1,18 @@
+@import '~stylesheets/utils';
+
+:host {
+  @include h-100;
+  @include w-100;
+  background: $dark-grey;
+  display: flex;
+  place-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#loginBtn {
+  height: 50%;
+  width: 50%;
+  background: #ff5722;
+  @include def-font-family(5rem);
+}

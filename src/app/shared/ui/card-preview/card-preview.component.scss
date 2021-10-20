@@ -1,0 +1,31 @@
+@use 'sass:math';
+@import '~stylesheets/utils';
+
+$line-per-content: math.div(196, 15);
+
+:host {
+  margin: 1rem;
+}
+
+#previewCard {
+  background: $white-10;
+  height: 256px;
+
+  &:hover {
+    @include shadow;
+    @include transform-transition;
+    z-index: 2;
+    transform: scale(1.01);
+    cursor: pointer;
+  }
+
+  mat-card-title {
+    @include def-font-family();
+    @include text-ellipsis();
+  }
+
+  mat-card-content {
+    @include def-font-family(0.8rem);
+    @include text-ellipsis(math.round($line-per-content));
+  }
+}

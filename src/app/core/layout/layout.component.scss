@@ -1,0 +1,18 @@
+@import 'stylesheets/utils';
+
+:host {
+  @include h-100;
+  @include w-100;
+  background: $dark-grey;
+  flex-direction: column;
+}
+
+.mat-drawer,
+.mat-drawer-container,
+mat-drawer-container {
+  background-color: $dark-grey;
+}
+
+mat-drawer-content {
+  overflow: hidden;
+}

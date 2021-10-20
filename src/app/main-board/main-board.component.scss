@@ -1,0 +1,10 @@
+@import 'stylesheets/utils';
+
+:host {
+  @include h-100;
+  @include w-100;
+}
+
+#cardWrapper {
+  flex-wrap: wrap;
+}

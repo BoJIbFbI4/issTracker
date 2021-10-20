@@ -1,0 +1,10 @@
+@import '~stylesheets/utils';
+
+h2 {
+  @include def-font-family(2rem);
+  align-self: center;
+}
+
+h4 {
+  @include def-font-family(0.8rem);
+}

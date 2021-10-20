@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" fxFlex="100" fxLayoutAlign="space-between center">
+  <div fxFlex="0 0 auto" fxLayout="row" fxLayoutGap="12px">
+    <h2>Current location</h2>
+    <div fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign="space-evenly" fxLayoutGap="4px">
+      <h4>Lat: , Long:</h4>
+      <h4>Time:</h4>
+    </div>
+  </div>
+
+  <button (click)="logout()" id="logoutBtn" mat-icon-button matTooltip="logout">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

@@ -1,0 +1,19 @@
+@import '~stylesheets/utils';
+
+:host {
+  //@include transform-transition;
+  @include centered-overlay;
+  @include backdrop-filter;
+  @include opacity-animation;
+}
+
+::ng-deep .mat-progress-spinner.mat-progress-spinner-indeterminate-animation[mode=indeterminate] svg {
+  animation: mat-progress-spinner-linear-rotate 2000ms linear infinite !important;
+}
+
+::ng-deep .mat-progress-spinner.mat-progress-spinner-indeterminate-animation[mode=indeterminate] circle {
+  transition-property: stroke !important;
+  animation-duration: 4000ms !important;
+  animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1) !important;
+  animation-iteration-count: infinite !important;
+}

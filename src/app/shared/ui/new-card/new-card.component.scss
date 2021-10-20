@@ -1,0 +1,30 @@
+@import '~stylesheets/utils';
+
+#newCard {
+  @include transitionEasy;
+  background: $white-10;
+  height: 256px;
+
+  &:hover {
+    @include shadow;
+    z-index: 2;
+    transform: scale(1.01);
+    cursor: pointer;
+
+    mat-icon {
+      font-size: 8rem;
+    }
+  }
+
+  mat-card-content {
+    @include def-font-family(0.8rem);
+  }
+
+  mat-icon {
+    @include transitionEasy;
+    @include display-center;
+    font-size: 6rem;
+    height: fit-content;
+    width: fit-content;
+  }
+}

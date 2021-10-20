@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+$dark-grey: rgb(32, 34, 39);
+$dark: rgb(22, 25, 29);
+$white-10: rgba(255, 255, 255, 0.1);
+$dark-selected: rgba(255, 255, 255, 0.2);
+$drawer-background: rgb(22, 25, 29);
+$main-background: rgb(32, 34, 39);
+$header-background: rgba(255, 255, 255, 0.1);
+$cell-selected-background: rgba(255, 255, 255, 0.1);
+$cell-background: rgba(255, 255, 255, 0.03);
+$cell-border: solid 0.5px $dark-grey;
+$accent: #ff5722;
+$table-background: rgba(255, 255, 255, 0.03);

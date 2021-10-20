@@ -1,0 +1,140 @@
+@use 'sass:math';
+@use '~@angular/material/theming' as mat;
+
+@mixin shadow {
+  -webkit-box-shadow: 0 0 10px #02020233 !important;
+  box-shadow: 0 0 10px #02020233 !important;
+}
+
+@mixin h-100 {
+  height: calc(100%) !important;
+  max-height: calc(100%) !important;
+}
+
+@mixin w-100 {
+  width: calc(100%) !important;
+  max-width: calc(100%) !important;
+  min-width: calc(100%) !important;
+}
+
+@mixin fill-available {
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+}
+
+@mixin hiddenOverflow() {
+  overflow: hidden !important;
+}
+
+@mixin text-ellipsis($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    display: list-item !important;
+  } @else {
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+  }
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+@mixin transitionEasy($speed: 0.2, $action: all) {
+  transition: $action $speed + s ease-in-out math.div($speed, 2) !important;
+}
+
+@mixin transform-transition($speed: 250) {
+  transition: transform $speed + ms cubic-bezier(0, 0, 0.2, 1) !important;
+}
+
+@mixin opacity-animation($speed: 0.5) {
+  animation: img-ani $speed + s ease-in-out;
+
+  @keyframes img-ani {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin transparent() {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@mixin p-0() {
+  padding: 0 !important;
+}
+
+@mixin m-0() {
+  margin: 0 !important;
+}
+
+@mixin def-font-family($size: 1rem, $spacing: normal, $height: normal, $weight: normal) {
+  font-family: Inter, system-ui !important;
+  font-size: $size !important;
+  font-weight: $weight !important;
+  font-stretch: normal !important;
+  font-style: normal !important;
+  line-height: $height !important;
+  letter-spacing: $spacing !important;
+  color: #fff !important;
+}
+
+@mixin table-font() {
+  @include def-font-family(0.813rem);
+  line-height: 1.55 !important;
+}
+
+@mixin invert-color() {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+  mix-blend-mode: difference;
+}
+
+@mixin mat-accent() {
+  color: #ffffff !important;
+}
+
+@mixin display-center($justify: flex-start) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: $justify;
+}
+
+@mixin custom-overlay() {
+  @include h-100;
+  @include w-100;
+  z-index: 999;
+  position: absolute;
+}
+
+@mixin centered-overlay {
+  @include display-center(center);
+  @include custom-overlay();
+  top: 0;
+  left: 0;
+}
+
+@mixin no-select() {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+}
+
+@mixin backdrop-filter($blur: 2) {
+  backdrop-filter: blur($blur + px);
+}
+
+@mixin notification-style() {
+  color: #fff !important;
+  background-color: rgba(22, 25, 29, 0.8) !important;
+}

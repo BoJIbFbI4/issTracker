@@ -1,0 +1,51 @@
+@use '~@angular/material' as mat;
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+@import 'variables';
+
+@include mat.core();
+/*in case of theme switcher*/
+
+/* light-theme*/
+$issTracker-light-primary: mat.define-palette(mat.$indigo-palette);
+$issTracker-light-accent: mat.define-palette(mat.$pink-palette);
+$issTracker-light-warn: mat.define-palette(mat.$red-palette);
+$issTracker-light-theme: mat.define-light-theme(
+                (
+                        color: (
+                                primary: $issTracker-light-primary,
+                                accent: $issTracker-light-accent,
+                                warn: $issTracker-light-warn,
+                        ),
+                )
+);
+
+/* dark-theme*/
+$issTracker-dark-primary: mat.define-palette(mat.$grey-palette, 900);
+$issTracker-dark-accent: mat.define-palette(mat.$deep-orange-palette, 500);
+$issTracker-dark-warn: mat.define-palette(mat.$red-palette, 800);
+$issTracker-dark-theme: mat.define-dark-theme(
+                (
+                        color: (
+                                primary: $issTracker-dark-primary,
+                                accent: $issTracker-dark-accent,
+                                warn: $issTracker-dark-warn,
+                        ),
+                )
+);
+
+@include mat.all-component-themes($issTracker-dark-theme);
+
+.dark-theme {
+  //$drawer-background: rgb(22, 25, 29);
+  //$main-background: rgb(32, 34, 39);
+  //$header-background: rgba(255, 255, 255, 0.1);
+  //$cell-background: rgba(255, 255, 255, 0.2);
+  //$cell-selected-background: rgba(255, 255, 255, 0.1);
+  //$border: solid 1px $dark-grey;
+  //$accent: #ff5722;
+}
+
+.light-theme {
+  @include mat.all-component-colors($issTracker-light-theme);
+  $drawer-background: mat.define-palette(mat.$indigo-palette, 800);
+}
