@@ -1,0 +1,20 @@
+@import 'stylesheets/utils';
+
+:host {
+  @include h-100;
+  flex-direction: column;
+}
+
+h1 {
+  @include def-font-family(3rem);
+  align-self: center;
+  margin: 2rem;
+}
+
+::ng-deep #filterForm {
+  margin: 0 1rem;
+
+  * {
+    color: #fff;
+  }
+}
