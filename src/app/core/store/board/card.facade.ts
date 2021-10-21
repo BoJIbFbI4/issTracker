@@ -6,13 +6,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CardEntity } from '../../models/card.model';
 
-import * as CardActions from './board.actions';
-import { CardState } from './board.reducer';
-import * as CardSelectors from './board.selectors';
+import * as CardActions from './card.actions';
+import { CardState } from './card.reducer';
+import * as CardSelectors from './card.selectors';
 
 @Injectable()
-export class BoardFacade {
+export class CardFacade {
   cards$: Observable<CardEntity[]> = this.store.pipe(select(CardSelectors.selectCards));
+  selectCardCreateRun$: Observable<boolean> = this.store.pipe(select(CardSelectors.selectCardCreateRun));
 
   cardsLoadError$ = this.store.pipe(select(CardSelectors.selectCardsLoadError));
 
@@ -54,7 +55,7 @@ export class BoardFacade {
   }
 
   addCard(payload: CardEntity): void {
-    this.dispatch(CardActions.addCard({ payload }));
+    this.dispatch(CardActions.addCard({ payload: payload }));
   }
 
   changeCard(payload: CardEntity): void {

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SideMenuModule } from '../../shared/ui/side-menu/side-menu.module';
 import { MainModule } from './components/main/main.module';
-import { SideMenuModule } from './components/side-menu/side-menu.module';
 import { LayoutComponent } from './layout.component';
 
 @NgModule({

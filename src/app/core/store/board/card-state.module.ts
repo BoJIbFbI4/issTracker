@@ -4,12 +4,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CardStorageModule } from '../../storage/card-storage/card-storage.module';
 
-import { BoardEffects } from './board.effects';
-import { BoardFacade } from './board.facade';
-import { CARD_FEATURE_KEY, reducer } from './board.reducer';
+import { CardEffects } from './card.effects';
+import { CardFacade } from './card.facade';
+import { CARD_FEATURE_KEY, reducer } from './card.reducer';
 
 @NgModule({
-  imports: [CardStorageModule, StoreModule.forFeature(CARD_FEATURE_KEY, reducer), EffectsModule.forFeature([BoardEffects])],
-  providers: [BoardFacade],
+  imports: [CardStorageModule, StoreModule.forFeature(CARD_FEATURE_KEY, reducer), EffectsModule.forFeature([CardEffects])],
+  providers: [CardFacade],
 })
 export class CardStateModule {}

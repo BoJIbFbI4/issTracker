@@ -111,7 +111,7 @@ ng-scrollbar {
 
 /* Select outline*/
 .mat-form-field-appearance-outline > .mat-form-field-wrapper {
-  padding-bottom: 0;
+  //padding-bottom: 0;
 
   .mat-select-trigger {
     font-size: 13px;
@@ -162,4 +162,9 @@ ng-scrollbar {
 .mat-menu-panel {
   min-width: 64px !important;
   max-width: 512px !important;
+}
+
+snack-bar-container {
+  @include notification-style();
+  border-radius: 5px 5px 0 0 !important;
 }

@@ -1,6 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LineLayout, Map, SymbolLayout, SymbolPaint, Transition } from 'mapbox-gl';
-import { BehaviorSubject } from 'rxjs';
+import { LineLayout, LngLatLike, Map, SymbolLayout, SymbolPaint, Transition } from 'mapbox-gl';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+import { SatelliteEntity } from '../core/models/satellite.interface';
+import { SatelliteFacade } from '../core/store/satellite/satellite.facade';
 import { Destroy } from '../shared/services/destroy.service';
 
 @Component({
@@ -48,13 +51,19 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     'icon-anchor': 'center',
     'icon-rotate': ['get', 'heading'] || 0,
   };
-  VOD_LIGHT_TRAJECTORY = 'rgba(204,204,204,.8)';
-  VOD_DARK_TRAJECTORY = 'rgba(34,34,34,.8)';
+
   imageLoaded = false;
   // nearestMarker!: Feature<Point> | any;
   cursorStyle$: BehaviorSubject<string> = new BehaviorSubject('');
+  satelliteState$!: Observable<SatelliteEntity | null>;
+  satelliteLocation$!: Observable<LngLatLike | undefined>;
+  REQUEST_TIMEOUT = 2000;
+  SATELLITE_ICON = 'assets/icons/satellite.png';
 
-  constructor(private readonly $destroy: Destroy) {}
+  constructor(private readonly $destroy: Destroy, private readonly satelliteFacade: SatelliteFacade) {
+    this.satelliteState$ = satelliteFacade.satelliteState$.pipe(takeUntil($destroy));
+    this.satelliteLocation$ = satelliteFacade.satelliteLocation$.pipe(takeUntil($destroy));
+  }
 
   ngOnInit(): void {
     // this.cards$.pipe(tap((c) => console.warn(c))).subscribe();
@@ -89,5 +98,16 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     this.subscribes();
   }
 
-  subscribes() {}
+  subscribes() {
+    interval(this.REQUEST_TIMEOUT)
+      .pipe(tap(() => this.satelliteFacade.requestSatelliteState()))
+      .subscribe();
+
+    this.satelliteLocation$
+      .pipe(
+        filter<any>(Boolean),
+        tap((center: LngLatLike) => this.mainMapBox.flyTo({ center }))
+      )
+      .subscribe();
+  }
 }

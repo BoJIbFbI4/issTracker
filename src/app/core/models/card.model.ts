@@ -1,7 +1,8 @@
+import { SatelliteEntity } from './satellite.interface';
+
 export interface CardEntity {
   id: number;
-  author_name: string;
-  content: string;
+  name: string;
   create_time: string;
-  update_time: string | null;
+  satelliteState: SatelliteEntity | undefined;
 }

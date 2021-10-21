@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HeaderComponent } from './header.component';
 
 @NgModule({
-  imports: [MatToolbarModule, FlexLayoutModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [MatToolbarModule, FlexLayoutModule, MatButtonModule, MatIconModule, MatTooltipModule, CommonModule],
   declarations: [HeaderComponent],
   exports: [HeaderComponent],
 })

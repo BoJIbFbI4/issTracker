@@ -1,5 +1,12 @@
 @import '~stylesheets/utils';
 
+:host {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 32px;
+}
+
 #newCard {
   @include transitionEasy;
   background: $white-10;

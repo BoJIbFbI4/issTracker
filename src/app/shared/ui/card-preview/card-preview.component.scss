@@ -9,7 +9,7 @@ $line-per-content: math.div(196, 15);
 
 #previewCard {
   background: $white-10;
-  height: 256px;
+  height: fit-content;
 
   &:hover {
     @include shadow;

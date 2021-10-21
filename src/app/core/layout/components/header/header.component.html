@@ -1,9 +1,9 @@
 <mat-toolbar color="primary" fxFlex="100" fxLayoutAlign="space-between center">
-  <div fxFlex="0 0 auto" fxLayout="row" fxLayoutGap="12px">
+  <div *ngIf="satelliteState$ | async as satelliteState" fxFlex="0 0 auto" fxLayout="row" fxLayoutGap="12px">
     <h2>Current location</h2>
     <div fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign="space-evenly" fxLayoutGap="4px">
-      <h4>Lat: , Long:</h4>
-      <h4>Time:</h4>
+      <h4 *ngIf="satelliteState.iss_position as position">Lat: {{ position.latitude }}, Long: {{ position.longitude }}</h4>
+      <h4>Time: {{ satelliteState.timestamp * 1000 | date: 'yyyy-dd-MM HH:mm:ss' }}</h4>
     </div>
   </div>
 

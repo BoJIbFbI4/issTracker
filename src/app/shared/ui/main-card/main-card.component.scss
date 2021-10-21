@@ -1,0 +1,24 @@
+@use '~@angular/cdk';
+@import '~stylesheets/utils';
+
+@include cdk.text-field-autofill();
+
+:host {
+  @include transitionEasy;
+  background: $dark-grey;
+}
+
+mat-card {
+  @include transitionEasy;
+  background: $white-10;
+  color: #fff;
+}
+
+::ng-deep .cardDialog > mat-dialog-container {
+  @include transparent;
+  padding: 0;
+}
+
+mat-divider {
+  position: relative !important;
+}

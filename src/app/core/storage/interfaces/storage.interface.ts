@@ -1,73 +1,73 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface AsyncStorage {
-	readonly storage: Storage;
+  readonly storage: Storage;
 
-	getItem<T>(key: string): Observable<T>;
+  getItem<T>(key: string): Observable<T>;
 
-	setItem<T>(key: string, value: T): void;
+  setItem<T>(key: string, value: T): void;
 
-	removeItem(key: string): void;
+  removeItem(key: string): void;
 
-	clear(): void;
+  clear(): void;
 }
 
-export const STORAGE_KEY = 'issTracker_LOCAL_STATE';
+export const STORAGE_KEY = 'ISS_TRACKER_LOCAL_STATE';
 
 export abstract class AbstractStorage implements AsyncStorage {
-	protected readonly state$!: BehaviorSubject<Record<string, any>>;
-	protected key = STORAGE_KEY;
+  protected readonly state$!: BehaviorSubject<Record<string, any>>;
+  protected key = STORAGE_KEY;
 
-	protected constructor(public readonly storage: Storage) {
-		this.state$ = new BehaviorSubject<Record<string, any>>(this.getLocalState());
-	}
+  protected constructor(public readonly storage: Storage) {
+    this.state$ = new BehaviorSubject<Record<string, any>>(this.getLocalState());
+  }
 
-	get length(): number {
-		return Object.keys(this.state).length;
-	}
+  get length(): number {
+    return Object.keys(this.state).length;
+  }
 
-	private get state(): Record<string, any> {
-		return this.state$.getValue();
-	}
+  private get state(): Record<string, any> {
+    return this.state$.getValue();
+  }
 
-	clear(): void {
-		this.setState({});
-	}
+  clear(): void {
+    this.setState({});
+  }
 
-	getItem<T = any>(key: string): Observable<T> {
-		return this.state$.pipe(map((state) => state[key] ?? null));
-	}
+  getItem<T = any>(key: string): Observable<T> {
+    return this.state$.pipe(map((state) => state[key] ?? null));
+  }
 
-	removeItem(key: string): void {
-		const state = {...this.state};
-		if (key in state) {
-			delete state[key];
+  removeItem(key: string): void {
+    const state = { ...this.state };
+    if (key in state) {
+      delete state[key];
 
-			this.setState(state);
-		}
-	}
+      this.setState(state);
+    }
+  }
 
-	setItem<T = any>(key: string, value: T): void {
-		this.setState({...this.state$.getValue(), [key]: value});
-	}
+  setItem<T = any>(key: string, value: T): void {
+    this.setState({ ...this.state$.getValue(), [key]: value });
+  }
 
-	protected setState(state: Record<string, any>): void {
-		this.state$.next(state);
-		this.setLocalState(state);
-	}
+  protected setState(state: Record<string, any>): void {
+    this.state$.next(state);
+    this.setLocalState(state);
+  }
 
-	protected setLocalState(state: Record<string, any>): void {
-		try {
-			this.storage.setItem(this.key, JSON.stringify(state));
-		} catch (error) {
-			console.error(error);
-		}
-	}
+  protected setLocalState(state: Record<string, any>): void {
+    try {
+      this.storage.setItem(this.key, JSON.stringify(state));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-	protected getLocalState(): Record<string, any> {
-		const state = this.storage.getItem(this.key);
+  protected getLocalState(): Record<string, any> {
+    const state = this.storage.getItem(this.key);
 
-		return state ? JSON.parse(state) : {};
-	}
+    return state ? JSON.parse(state) : {};
+  }
 }

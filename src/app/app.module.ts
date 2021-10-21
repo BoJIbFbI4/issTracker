@@ -10,7 +10,8 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardStateModule } from './core/store/board/card-state.module';
-import { NewCardModule } from './shared/ui/new-card/new-card.module';
+import { SatelliteStateModule } from './core/store/satellite/satellite-state.module';
+import { SaveLocationButtonModule } from './shared/ui/save-location-button/save-location-button.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,6 @@ import { NewCardModule } from './shared/ui/new-card/new-card.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CardStateModule,
     StoreModule.forRoot(
       {},
       {
@@ -28,8 +28,10 @@ import { NewCardModule } from './shared/ui/new-card/new-card.module';
         },
       }
     ),
-    NewCardModule,
-    EffectsModule.forRoot([]),
+    SatelliteStateModule,
+    CardStateModule,
+    SaveLocationButtonModule,
+    EffectsModule.forRoot(),
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ logOnly: environment.production }) : [],
   ],

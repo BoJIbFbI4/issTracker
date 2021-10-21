@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
+import { SaveLocationButtonModule } from '../shared/ui/save-location-button/save-location-button.module';
 import { MainBoardComponent } from './main-board.component';
 import { MainBoardRouting } from './main-board.routing';
+import { GenerateSatelliteLocationPipe } from './utils/generateSatelliteLocation.pipe';
 
 @NgModule({
-  declarations: [MainBoardComponent],
+  declarations: [MainBoardComponent, GenerateSatelliteLocationPipe],
   imports: [
     CommonModule,
     NgxMapboxGLModule.withConfig({
@@ -15,6 +17,7 @@ import { MainBoardRouting } from './main-board.routing';
     }),
     FlexModule,
     MainBoardRouting,
+    SaveLocationButtonModule,
   ],
 })
 export class MainBoardModule {}

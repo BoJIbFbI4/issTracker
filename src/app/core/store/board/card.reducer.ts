@@ -3,7 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { sortByDate } from '../../../shared/utils/sortByDate';
 import { CardEntity } from '../../models/card.model';
 
-import * as CardActions from './board.actions';
+import * as CardActions from './card.actions';
 
 export const CARD_FEATURE_KEY = 'card';
 
@@ -24,7 +24,7 @@ export interface CardPartialState {
 
 export const cardAdapter: EntityAdapter<CardEntity> = createEntityAdapter<CardEntity>({
   selectId: (card) => card.id,
-  sortComparer: (a, b) => sortByDate(a.update_time || a.create_time, b.update_time || b.create_time),
+  sortComparer: (a, b) => sortByDate(a.create_time, b.create_time),
 });
 
 export const cardInitialState: CardState = cardAdapter.getInitialState({
@@ -90,12 +90,13 @@ export const reducer = createReducer(
     cardCreateError: null,
     cardCreateRun: true,
   })),
-  on(CardActions.addCardSuccess, (state, { payload }) =>
-    cardAdapter.addOne(payload, {
+  on(CardActions.addCardSuccess, (state, { payload }) => {
+    console.log(state, payload);
+    return cardAdapter.addOne(payload, {
       ...state,
       cardCreateRun: false,
-    })
-  ),
+    });
+  }),
   on(CardActions.addCardFailure, (state, { payload }) => ({
     ...state,
     cardCreateError: payload,

@@ -2,7 +2,7 @@ import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CardEntity } from '../../models/card.model';
 
-import { CARD_FEATURE_KEY, cardAdapter, CardState } from './board.reducer';
+import { CARD_FEATURE_KEY, cardAdapter, CardState } from './card.reducer';
 
 export const selectCardState = createFeatureSelector<CardState>(CARD_FEATURE_KEY);
 

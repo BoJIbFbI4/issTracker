@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { debounceTime, map, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, map, tap, withLatestFrom } from 'rxjs/operators';
 import { CardEntity } from '../../models/card.model';
 import { CardStorage } from '../../storage/card-storage/card-storage.service';
 import { fetch } from '../utils/nx.utils';
-import * as BoardActions from './board.actions';
-import * as BoardSelectors from './board.selectors';
+import * as BoardActions from './card.actions';
+import * as BoardSelectors from './card.selectors';
 
 @Injectable()
-export class BoardEffects implements OnInitEffects {
+export class CardEffects implements OnInitEffects {
   loadCards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.loadCards),
@@ -24,10 +24,10 @@ export class BoardEffects implements OnInitEffects {
   addCard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.addCard),
-      withLatestFrom(this.store.pipe(select(BoardSelectors.selectCards))),
+      tap(({ payload }) => console.log(payload)),
       fetch({
         id: () => 'add-card',
-        run: ({ payload }, cards) => BoardActions.addCardSuccess({ payload }),
+        run: ({ payload }) => BoardActions.addCardSuccess({ payload }),
         onError: (action, payload) => BoardActions.addCardFailure({ payload }),
       })
     )
@@ -39,11 +39,10 @@ export class BoardEffects implements OnInitEffects {
       withLatestFrom(this.store.pipe(select(BoardSelectors.selectCardsEntities))),
       fetch({
         id: (action) => `remove-card-${action.payload.id}`,
-        run: (action, cardsEntities) => {
-          const card = cardsEntities ? cardsEntities[action.payload.id] : null;
-
-          return card ? BoardActions.removeCardSuccess({ payload: action.payload }) : BoardActions.removeCardCancel();
-        },
+        run: (action, cardsEntities) =>
+          cardsEntities && cardsEntities[action.payload.id]
+            ? BoardActions.removeCardSuccess({ payload: action.payload })
+            : BoardActions.removeCardCancel(),
         onError: (action, error) => BoardActions.removeCardFailure({ payload: { ...error, id: action.payload.id } }),
       })
     )

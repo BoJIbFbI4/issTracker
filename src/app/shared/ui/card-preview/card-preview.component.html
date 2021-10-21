@@ -1,8 +1,10 @@
-<mat-card (click)="openCard(card)" fxFlex="100" fxLayout="column" id="previewCard">
+<mat-card (click)="selectCard(card)" fxFlex="100" fxLayout="column" id="previewCard">
   <mat-card-title fxFlex="0 0 20px">
-    {{ card.author_name }}
+    {{ card.name }}
   </mat-card-title>
-  <mat-card-content fxFlex="0 0 auto">
-    {{ card.content }}
+  <mat-card-content *ngIf="card.satelliteState as state" fxFlex="0 0 auto" fxLayout="column" fxLayoutGap="4px">
+    <span>Timestamp: {{ card.create_time | date: 'shortDate' }} - {{ card.create_time | date: 'shortTime' }}</span>
+    <span>latitude: {{ state.iss_position.latitude }}</span>
+    <span>longitude: {{ state.iss_position.longitude }}</span>
   </mat-card-content>
 </mat-card>

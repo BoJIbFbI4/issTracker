@@ -1,6 +1,6 @@
 <!--<ng-scrollbar id="tableWrapper" thumbClass="scrollbar-thumb" track="vertical" trackClass="scrollbar" visibility="hover">
   <div fxFlexFill fxLayoutAlign="flex-start center" fxLayoutGap="1rem grid" id="cardWrapper">
-    <app-new-card fxFlex="10" fxFlex.lt-lg="33" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxFlex.lt-xl="25"></app-new-card>
+    <app-save-location-button fxFlex="10" fxFlex.lt-lg="33" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxFlex.lt-xl="25"></app-save-location-button>
   </div>
 </ng-scrollbar>-->
 <mgl-map
@@ -13,12 +13,30 @@
   [doubleClickZoom]="false"
   [failIfMajorPerformanceCaveat]="true"
   [id]="'mainMapBox'"
+  [interactive]="false"
   [minZoom]="3"
   [movingMethod]="'easeTo'"
   [preserveDrawingBuffer]="false"
-  [renderWorldCopies]="false"
+  [renderWorldCopies]="true"
   [style]="'mapbox://styles/mapbox/dark-v10'"
   [trackResize]="true"
   fxFill
   oncontextmenu="return false;"
-></mgl-map>
+>
+  <ng-container *ngIf="!!(satelliteState$ | async) && (satelliteState$ | async) as satelliteState">
+    <mgl-image (imageLoaded)="imageLoaded = true" [url]="SATELLITE_ICON" id="ds"></mgl-image>
+    <mgl-geojson-source [data]="satelliteState | dsLocation" [id]="'satellite__location__source'"></mgl-geojson-source>
+    <mgl-layer
+      *ngIf="imageLoaded"
+      [before]=""
+      [id]="'satellite__location'"
+      [layout]="{ 'icon-image': 'ds', 'icon-size': 0.1, 'icon-rotate': 180 }"
+      [source]="'satellite__location__source'"
+      type="symbol"
+    ></mgl-layer>
+  </ng-container>
+</mgl-map>
+
+<ng-container *ngIf="!!(satelliteState$ | async) && (satelliteState$ | async) as satelliteState">
+  <app-save-location [satelliteState]="satelliteState"></app-save-location>
+</ng-container>

@@ -6,7 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { CardPreviewModule } from '../../../../shared/ui/card-preview/card-preview.module';
+import { CardPreviewModule } from '../card-preview/card-preview.module';
+import { MainCardModule } from '../main-card/main-card.module';
 import { SideMenuComponent } from './side-menu.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { SideMenuComponent } from './side-menu.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
+    MainCardModule,
   ],
 })
 export class SideMenuModule {}
