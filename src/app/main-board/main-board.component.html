@@ -11,7 +11,7 @@
   [id]="'mainMapBox'"
   [interactive]="false"
   [minZoom]="3"
-  [movingMethod]="'flyTo'"
+  [movingMethod]="'easeTo'"
   [preserveDrawingBuffer]="false"
   [renderWorldCopies]="true"
   [style]="'mapbox://styles/mapbox/dark-v10'"
@@ -21,14 +21,14 @@
 >
   <mgl-image (imageLoaded)="satelliteImgLoaded = true" [url]="SATELLITE_ICON" id="satellite"></mgl-image>
   <!--  <mgl-geojson-source [data]="satelliteState$ | async | dsLocation" [id]="'satellite__location__source'"></mgl-geojson-source>
-                  <mgl-layer
-                    *ngIf="satelliteImgLoaded"
-                    [before]=""
-                    [id]="'satellite__location'"
-                    [layout]="{ 'icon-image': 'satellite', 'icon-size': 0.1, 'icon-rotate': 180 }"
-                    [source]="'satellite__location__source'"
-                    type="symbol"
-                  ></mgl-layer>-->
+                      <mgl-layer
+                        *ngIf="satelliteImgLoaded"
+                        [before]=""
+                        [id]="'satellite__location'"
+                        [layout]="{ 'icon-image': 'satellite', 'icon-size': 0.1, 'icon-rotate': 180 }"
+                        [source]="'satellite__location__source'"
+                        type="symbol"
+                      ></mgl-layer>-->
 
   <ng-container *ngIf="center">
     <mgl-marker [lngLat]="center" pitchAlignment="map" rotationAlignment="map">

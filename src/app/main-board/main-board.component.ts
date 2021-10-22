@@ -77,7 +77,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   ) {
     this.satelliteState$ = satelliteFacade.satelliteState$.pipe(takeUntil($destroy));
     this.satelliteLocation$ = satelliteFacade.satelliteLocation$.pipe(takeUntil($destroy));
-    this.selectedCard$ = cardFacade.getSelectedCard$.pipe(takeUntil($destroy));
+    this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil($destroy));
   }
 
   ngOnInit(): void {

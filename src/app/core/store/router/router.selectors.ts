@@ -1,10 +1,4 @@
 import { getSelectors } from '@ngrx/router-store';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { MergedRouteReducerState } from '../../models/merged-route';
-import { routerStateConfig } from './router.module';
-
-export const getRouterReducerState = createFeatureSelector<MergedRouteReducerState>(routerStateConfig.stateKey);
-export const getMergedRoute = createSelector(getRouterReducerState, (routerReducerState) => routerReducerState.state);
 
 export const {
   selectCurrentRoute, // select the current route

@@ -2,7 +2,7 @@
 <mat-form-field appearance="outline" id="filterForm">
   <mat-label>Search</mat-label>
   <input #filter [formControl]="filterControl" matInput />
-  <mat-icon (click)="filterControl.reset('')" *ngIf="!!filter?.value?.length" matSuffix>close</mat-icon>
+  <mat-icon (click)="filterControl.reset('')" *ngIf="!!filter?.value?.length" [matTooltip]="'Clear'" matSuffix>close</mat-icon>
 </mat-form-field>
 <ng-scrollbar
   [autoHeightDisabled]="false"

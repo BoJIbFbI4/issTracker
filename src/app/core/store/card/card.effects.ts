@@ -33,6 +33,17 @@ export class CardEffects implements OnInitEffects {
     )
   );
 
+  revertCard$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CardActions.revertCard),
+      fetch({
+        id: () => 'revert-card',
+        run: ({ payload }) => CardActions.revertCardSuccess({ payload }),
+        onError: (action, payload) => CardActions.revertCardFailure({ payload }),
+      })
+    )
+  );
+
   filterCard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CardActions.setFilter),
@@ -92,6 +103,7 @@ export class CardEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(
         CardActions.addCardSuccess,
+        CardActions.revertCardSuccess,
         CardActions.removeCardSuccess,
         CardActions.removeCardsSuccess,
         CardActions.changeCardSuccess,

@@ -1,5 +1,5 @@
 <mat-card (click)="selectCard(card)" [ngClass]="{ selected: card.id === selectedCardId }" fxFlex="100" fxLayout="column" id="previewCard">
-  <mat-icon (click)="requestDelete(card)" id="deleteCardBtn">close</mat-icon>
+  <mat-icon (click)="$event.stopPropagation(); requestDelete(card)" [matTooltip]="'Delete'" id="deleteCardBtn">close</mat-icon>
   <mat-card-title fxFlex="0 0 20px">
     {{ card.name }}
   </mat-card-title>

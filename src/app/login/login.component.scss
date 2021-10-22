@@ -15,4 +15,8 @@
   width: 50%;
   background: #ff5722;
   @include def-font-family(5rem);
+
+  ::ng-deep .mat-button-wrapper {
+    place-content: center;
+  }
 }

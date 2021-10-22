@@ -1,8 +1,7 @@
 import { NgModule, Optional, Self } from '@angular/core';
 import { Router } from '@angular/router';
-import { routerReducer, RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { MergedRouterStateSerializer } from '../utils/merged-route-serialzer';
 
 export const routerStateConfig = {
   stateKey: 'router', // state-slice name for routing state
@@ -11,12 +10,6 @@ export const routerStateConfig = {
 @NgModule({
   imports: [StoreModule.forFeature(routerStateConfig.stateKey, routerReducer), StoreRouterConnectingModule.forRoot(routerStateConfig)],
   exports: [StoreModule, StoreRouterConnectingModule],
-  providers: [
-    {
-      provide: RouterStateSerializer,
-      useClass: MergedRouterStateSerializer,
-    },
-  ],
 })
 export class NgrxRouterStoreModule {
   constructor(@Self() @Optional() router: Router) {

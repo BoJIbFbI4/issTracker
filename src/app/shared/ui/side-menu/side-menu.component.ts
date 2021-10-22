@@ -24,6 +24,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   lastRemovedCard: CardEntity | undefined;
   cardAdded$: Observable<CardEntity>;
   cardRemoved$: Observable<CardEntity>;
+  cardRestored$: Observable<CardEntity>;
 
   constructor(
     private readonly cardFacade: CardFacade,
@@ -34,15 +35,16 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     private readonly router: Router
   ) {
     this.cards$ = cardFacade.filteredCards$.pipe(takeUntil($destroy));
-    this.selectedCard$ = cardFacade.getSelectedCard$.pipe(takeUntil($destroy));
+    this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil($destroy));
     // this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil(this.$destroy));
     this.lastRemovedCard$ = cardFacade.lastRemovedCard$.pipe(takeUntil($destroy));
     this.cardAdded$ = cardFacade.cardAdded$.pipe(takeUntil($destroy));
+    this.cardRestored$ = cardFacade.cardRestored$.pipe(takeUntil($destroy));
     this.cardRemoved$ = cardFacade.cardRemoved$.pipe(takeUntil($destroy));
   }
 
   @HostListener('document:keydown.control.z', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    this.revertCard();
+    !!this.lastRemovedCard && this.revertCard();
     event.preventDefault();
   }
 
@@ -59,6 +61,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
       .subscribe();
 
     this.lastRemovedCard$.pipe(tap((card) => (this.lastRemovedCard = card))).subscribe();
+
     this.cardRemoved$
       .pipe(
         tap(() => {
@@ -74,14 +77,22 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     this.cardAdded$
       .pipe(
         tap(() => {
-          this.matSnackBar.open('Card created success', '', { duration: 3000 });
+          this.matSnackBar.open('Card add', 'Ok', { duration: 3000 });
           this.dialog.getDialogById('cardModal') && this.dialog.closeAll();
+        })
+      )
+      .subscribe();
+
+    this.cardRestored$
+      .pipe(
+        tap(() => {
+          this.matSnackBar.open('Card restored', 'Ok', { duration: 3000 });
         })
       )
       .subscribe();
   }
 
-  revertCard = () => this.cardFacade.addCard(<CardEntity>this.lastRemovedCard);
+  revertCard = () => this.cardFacade.revertCard(<CardEntity>this.lastRemovedCard);
 
   ngAfterViewInit(): void {
     combineLatest([this.route.queryParams, this.cards$])

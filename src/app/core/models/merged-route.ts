@@ -8,4 +8,4 @@ export interface MergedRoute {
   data: Data;
 }
 
-export type MergedRouteReducerState = RouterReducerState<MergedRoute>;
+export type MergedRoutReducerState = RouterReducerState<MergedRoute>;

@@ -36,6 +36,14 @@ export const addCardSuccess = createAction('[Card] Add Card Success', payload<Ca
 
 export const addCardFailure = createAction('[Card] Add Card Failure', payload<any>());
 
+export const revertCard = createAction('[Card] Revert Card', payload<CardEntity>());
+
+export const revertCardCancel = createAction('[Card] Revert Card Cancel');
+
+export const revertCardSuccess = createAction('[Card] Revert Card Success', payload<CardEntity>());
+
+export const revertCardFailure = createAction('[Card] Revert Card Failure', payload<any>());
+
 export const changeCard = createAction('[Card] Change Card', payload<CardEntity>());
 
 export const changeCardCancel = createAction('[Card] Change Card Cancel');
@@ -43,8 +51,6 @@ export const changeCardCancel = createAction('[Card] Change Card Cancel');
 export const changeCardSuccess = createAction('[Card] Change Card Success', payload<CardEntity>());
 
 export const changeCardFailure = createAction('[Card] Change Card Failure', payload<any>());
-
-export const setSelectedCard = createAction('[Card] Set selected', payload<CardEntity | undefined>());
 
 export const setFilter = createAction('[Card] Set filter', payload<string>());
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { NavigationPath } from '../../../models/navigation.interface';
 
 @Component({
@@ -12,4 +12,8 @@ export class MainComponent {
     { id: NavigationPath.Map, name: 'Map' },
     { id: NavigationPath.Report, name: 'Report' },
   ];
+
+  constructor(private readonly cdRef: ChangeDetectorRef) {}
+
+  listenChanges = () => this.cdRef.markForCheck();
 }

@@ -18,12 +18,18 @@ export class CardPreviewComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  selectCard = (card: CardEntity | undefined) =>
+  selectCard = (card: CardEntity) =>
     this.router.navigate([], {
-      queryParams: this.selectedCardId !== card?.id ? { id: card?.id } : {},
-    }) /*this.cardFacade.selectCard(card)*/;
+      queryParams: { id: this.selectedCardId !== card.id ? card?.id : null },
+      queryParamsHandling: 'merge',
+    });
+
   requestDelete = (card: CardEntity) => {
-    this.selectedCardId === card.id && this.selectCard(undefined);
+    this.selectedCardId === card.id &&
+      this.router.navigate([], {
+        queryParams: { id: null },
+        queryParamsHandling: 'merge',
+      });
     this.cardFacade.removeCard(card);
   };
 }

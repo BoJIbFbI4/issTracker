@@ -7,8 +7,6 @@ import * as CardActions from './card.actions';
 export const CARD_FEATURE_KEY = 'card';
 
 export interface CardState extends EntityState<CardEntity> {
-  selectedCard: CardEntity | undefined;
-
   cardsLoadError: any;
   cardsLoadRun: boolean;
 
@@ -35,7 +33,6 @@ export const cardAdapter: EntityAdapter<CardEntity> = createEntityAdapter<CardEn
 });
 
 export const cardInitialState: CardState = cardAdapter.getInitialState({
-  selectedCard: undefined,
   lastRemovedCard: undefined,
   cardsLoadError: null,
   cardsLoadRun: false,
@@ -50,10 +47,6 @@ export const cardInitialState: CardState = cardAdapter.getInitialState({
 
 export const reducer = createReducer(
   cardInitialState,
-  on(CardActions.setSelectedCard, (state, { type, payload }) => ({
-    ...state,
-    selectedCard: state.selectedCard?.id !== payload?.id ? payload : undefined,
-  })),
   on(CardActions.setFilter, (state, { type, payload }) => ({
     ...state,
     cardsFilterRun: true,
@@ -126,6 +119,17 @@ export const reducer = createReducer(
     ...state,
     cardCreateError: payload,
     cardCreateRun: false,
+  })),
+  on(CardActions.revertCard, (state) => state),
+  on(CardActions.revertCardSuccess, (state, { payload }) =>
+    cardAdapter.addOne(payload, {
+      ...state,
+      lastRemovedCard: undefined,
+    })
+  ),
+  on(CardActions.revertCardFailure, (state, { payload }) => ({
+    ...state,
+    cardCreateError: payload,
   })),
   on(CardActions.changeCard, (state, { payload }) =>
     cardAdapter.updateOne(
