@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angu
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CardEntity } from '../core/models/card.model';
-import { CardFacade } from '../core/store/board/card.facade';
+import { CardFacade } from '../core/store/card/card.facade';
 import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
 

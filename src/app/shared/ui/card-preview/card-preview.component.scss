@@ -6,6 +6,13 @@ $line-per-content: math.div(196, 15);
 :host {
   margin: 1rem;
   @include transitionEasy();
+}
+
+#previewCard {
+  @include transitionEasy();
+  background: $white-10;
+  height: fit-content;
+  cursor: pointer;
 
   &.selected {
     transform: scale(1.05) !important;
@@ -16,14 +23,7 @@ $line-per-content: math.div(196, 15);
     @include transform-transition;
     z-index: 2;
     transform: scale(1.01);
-    cursor: pointer;
   }
-}
-
-#previewCard {
-  @include transitionEasy();
-  background: $white-10;
-  height: fit-content;
 
   #deleteCardBtn {
     position: absolute;

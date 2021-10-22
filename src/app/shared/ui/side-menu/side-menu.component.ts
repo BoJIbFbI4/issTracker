@@ -3,11 +3,10 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as _ from 'lodash';
 import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 import { CardEntity } from '../../../core/models/card.model';
-import { CardFacade } from '../../../core/store/board/card.facade';
+import { CardFacade } from '../../../core/store/card/card.facade';
 import { Destroy } from '../../services/destroy.service';
 
 @Component({
@@ -19,7 +18,7 @@ import { Destroy } from '../../services/destroy.service';
 })
 export class SideMenuComponent implements OnInit, AfterViewInit {
   cards$: Observable<CardEntity[]>;
-  selectedCard$: Observable<CardEntity | undefined>;
+  selectedCard$: Observable<CardEntity | undefined | any>;
   lastRemovedCard$: Observable<CardEntity | undefined>;
   filterControl: FormControl = new FormControl('');
   lastRemovedCard: CardEntity | undefined;
@@ -34,11 +33,12 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {
-    this.cards$ = cardFacade.filteredCards$.pipe(takeUntil(this.$destroy));
-    this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil(this.$destroy));
-    this.lastRemovedCard$ = cardFacade.lastRemovedCard$.pipe(takeUntil(this.$destroy));
-    this.cardAdded$ = cardFacade.cardAdded$.pipe(takeUntil(this.$destroy));
-    this.cardRemoved$ = cardFacade.cardRemoved$.pipe(takeUntil(this.$destroy));
+    this.cards$ = cardFacade.filteredCards$.pipe(takeUntil($destroy));
+    this.selectedCard$ = cardFacade.getSelectedCard$.pipe(takeUntil($destroy));
+    // this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil(this.$destroy));
+    this.lastRemovedCard$ = cardFacade.lastRemovedCard$.pipe(takeUntil($destroy));
+    this.cardAdded$ = cardFacade.cardAdded$.pipe(takeUntil($destroy));
+    this.cardRemoved$ = cardFacade.cardRemoved$.pipe(takeUntil($destroy));
   }
 
   @HostListener('document:keydown.control.z', ['$event']) onKeydownHandler(event: KeyboardEvent) {
@@ -52,14 +52,13 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
         debounceTime(222),
         tap((filter) =>
           this.router
-            .navigate([], { queryParams: { filter: !!filter?.length ? filter : null }, queryParamsHandling: 'merge' })
+            .navigate([], { queryParams: { filter: filter || null }, queryParamsHandling: 'merge' })
             .then(() => this.cardFacade.cardFilter(filter))
         )
       )
       .subscribe();
 
     this.lastRemovedCard$.pipe(tap((card) => (this.lastRemovedCard = card))).subscribe();
-
     this.cardRemoved$
       .pipe(
         tap(() => {
@@ -90,7 +89,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
         // filter<any>(Boolean),
         first(),
         tap(([params, cards]: [any, CardEntity[]]) => {
-          params?.timestamp && this.cardFacade.selectCard(_.find(cards, { id: +params.timestamp }));
+          // params?.id && this.cardFacade.selectCard(_.find(cards, { id: +params.id }));
           this.filterControl.setValue(params.filter || '');
         })
       )

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { CardEntity } from '../../../core/models/card.model';
 import { SatelliteEntity } from '../../../core/models/satellite.interface';
-import { CardFacade } from '../../../core/store/board/card.facade';
+import { CardFacade } from '../../../core/store/card/card.facade';
 import { Destroy } from '../../services/destroy.service';
 
 @Component({

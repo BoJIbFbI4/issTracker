@@ -9,7 +9,8 @@ import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CardStateModule } from './core/store/board/card-state.module';
+import { CardStateModule } from './core/store/card/card-state.module';
+import { NgrxRouterStoreModule } from './core/store/router/router.module';
 import { SatelliteStateModule } from './core/store/satellite/satellite-state.module';
 import { SettingsStateModule } from './core/store/settings/settings-state.module';
 import { SaveLocationButtonModule } from './shared/ui/save-location-button/save-location-button.module';
@@ -33,9 +34,10 @@ import { SaveLocationButtonModule } from './shared/ui/save-location-button/save-
     SettingsStateModule,
     CardStateModule,
     SaveLocationButtonModule,
-    EffectsModule.forRoot(),
+    EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ logOnly: environment.production }) : [],
+    NgrxRouterStoreModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],
   bootstrap: [AppComponent],

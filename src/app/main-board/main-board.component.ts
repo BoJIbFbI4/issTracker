@@ -5,7 +5,7 @@ import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { CardEntity } from '../core/models/card.model';
 import { SatelliteEntity } from '../core/models/satellite.interface';
-import { CardFacade } from '../core/store/board/card.facade';
+import { CardFacade } from '../core/store/card/card.facade';
 import { SatelliteFacade } from '../core/store/satellite/satellite.facade';
 import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
@@ -77,7 +77,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   ) {
     this.satelliteState$ = satelliteFacade.satelliteState$.pipe(takeUntil($destroy));
     this.satelliteLocation$ = satelliteFacade.satelliteLocation$.pipe(takeUntil($destroy));
-    this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil($destroy));
+    this.selectedCard$ = cardFacade.getSelectedCard$.pipe(takeUntil($destroy));
   }
 
   ngOnInit(): void {
@@ -102,9 +102,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
     this.selectedCard$
       .pipe(
-        tap((card: CardEntity | undefined) =>
-          this.router.navigate([], { queryParams: { timestamp: card?.id }, queryParamsHandling: 'merge' })
-        ),
+        // tap((card: CardEntity | undefined) => this.router.navigate([], { queryParams: { id: card?.id }, queryParamsHandling: 'merge' })),
         tap((card: CardEntity | undefined) => {
           this.isCardSelected = !!card;
           this.center = !!card

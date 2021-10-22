@@ -15,7 +15,8 @@ export class CardFacade {
   cards$: Observable<CardEntity[]> = this.store.pipe(select(CardSelectors.selectCards));
   filteredCards$: Observable<CardEntity[]> = this.store.pipe(select(CardSelectors.filteredCards));
   selectCardCreateRun$: Observable<boolean> = this.store.pipe(select(CardSelectors.selectCardCreateRun));
-  selectedCard$: Observable<CardEntity | undefined> = this.store.pipe(select(CardSelectors.selectedCard));
+  // selectedCard$: Observable<CardEntity | undefined> = this.store.pipe(select(CardSelectors.selectedCard));
+  getSelectedCard$: Observable<CardEntity | undefined | any> = this.store.pipe(select(CardSelectors.getSelectedCard));
   lastRemovedCard$: Observable<CardEntity | undefined> = this.store.pipe(select(CardSelectors.lastRemovedCard));
 
   cardsLoadError$ = this.store.pipe(select(CardSelectors.selectCardsLoadError));
