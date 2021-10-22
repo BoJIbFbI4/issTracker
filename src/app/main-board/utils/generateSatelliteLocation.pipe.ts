@@ -7,23 +7,27 @@ import { SatelliteEntity } from '../../core/models/satellite.interface';
 })
 export class GenerateSatelliteLocationPipe implements PipeTransform {
   public transform(
-    data: SatelliteEntity
+    data: SatelliteEntity | null
   ): GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry> | string | undefined {
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
+    return !!data
+      ? {
+          /*  type: 'FeatureCollection',
+				features: !!data
+					? [
+							{*/
           type: 'Feature',
           id: 666,
           geometry: {
             type: 'Point',
-            coordinates: [+data?.iss_position?.longitude || 0, +data?.iss_position?.latitude || 0],
+            coordinates: [+data!.iss_position?.longitude, +data!.iss_position?.latitude],
           },
           properties: {
-            timestamp: data.timestamp,
+            timestamp: data!.timestamp,
           },
-        },
-      ],
-    };
+          /*        },
+						]
+					: [],*/
+        }
+      : undefined;
   }
 }

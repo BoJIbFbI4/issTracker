@@ -16,3 +16,7 @@ mat-drawer-container {
 mat-drawer-content {
   overflow: hidden;
 }
+
+::ng-deep .mat-drawer-transition .mat-drawer-content {
+  transition-duration: 0s !important;
+}

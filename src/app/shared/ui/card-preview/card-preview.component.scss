@@ -5,18 +5,31 @@ $line-per-content: math.div(196, 15);
 
 :host {
   margin: 1rem;
-}
+  @include transitionEasy();
 
-#previewCard {
-  background: $white-10;
-  height: fit-content;
+  &.selected {
+    transform: scale(1.05) !important;
+  }
 
-  &:hover {
+  &:hover:not(&.selected) {
     @include shadow;
     @include transform-transition;
     z-index: 2;
     transform: scale(1.01);
     cursor: pointer;
+  }
+}
+
+#previewCard {
+  @include transitionEasy();
+  background: $white-10;
+  height: fit-content;
+
+  #deleteCardBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 8px;
   }
 
   mat-card-title {
@@ -26,6 +39,6 @@ $line-per-content: math.div(196, 15);
 
   mat-card-content {
     @include def-font-family(0.8rem);
-    @include text-ellipsis(math.round($line-per-content));
+    //@include text-ellipsis(math.round($line-per-content));
   }
 }

@@ -1,9 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LineLayout, LngLatLike, Map, SymbolLayout, SymbolPaint, Transition } from 'mapbox-gl';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
+import { CardEntity } from '../core/models/card.model';
 import { SatelliteEntity } from '../core/models/satellite.interface';
+import { CardFacade } from '../core/store/board/card.facade';
 import { SatelliteFacade } from '../core/store/satellite/satellite.facade';
+import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
 
 @Component({
@@ -52,43 +56,36 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     'icon-rotate': ['get', 'heading'] || 0,
   };
 
-  imageLoaded = false;
+  satelliteImgLoaded = false;
   // nearestMarker!: Feature<Point> | any;
   cursorStyle$: BehaviorSubject<string> = new BehaviorSubject('');
   satelliteState$!: Observable<SatelliteEntity | null>;
   satelliteLocation$!: Observable<LngLatLike | undefined>;
   REQUEST_TIMEOUT = 2000;
   SATELLITE_ICON = 'assets/icons/satellite.png';
+  selectedCard$: Observable<CardEntity | undefined>;
+  isCardSelected!: boolean;
+  center: LngLatLike = [0, 0];
+  rtLocation!: LngLatLike;
 
-  constructor(private readonly $destroy: Destroy, private readonly satelliteFacade: SatelliteFacade) {
+  constructor(
+    private readonly $destroy: Destroy,
+    private readonly satelliteFacade: SatelliteFacade,
+    private readonly cardFacade: CardFacade,
+    private readonly settingsFacade: SettingsFacade,
+    private readonly router: Router
+  ) {
     this.satelliteState$ = satelliteFacade.satelliteState$.pipe(takeUntil($destroy));
     this.satelliteLocation$ = satelliteFacade.satelliteLocation$.pipe(takeUntil($destroy));
+    this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil($destroy));
   }
 
   ngOnInit(): void {
+    this.settingsFacade.setSelectedTab('map');
     // this.cards$.pipe(tap((c) => console.warn(c))).subscribe();
   }
 
-  ngAfterViewInit(): void {
-    /*  this.route.queryParams
-				.pipe(
-					takeUntil(this.$destroy),
-					take(1),
-					// first((params) => !!params?.id),
-					withLatestFrom(this.cards$),
-					map(([{ id }, cards]) => <CardEntity>_.find(cards, { id: +id })),
-					tap((card: CardEntity) =>
-						!!card
-							? this.dialog.open(MainCardComponent, {
-									data: {
-										card,
-									},
-								})
-							: this.router.navigate([], { queryParamsHandling: '' })
-					)
-				)
-				.subscribe();*/
-  }
+  ngAfterViewInit(): void {}
 
   initMainMap(mapbox: Map) {
     this.mainMapBox = mapbox;
@@ -103,10 +100,24 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
       .pipe(tap(() => this.satelliteFacade.requestSatelliteState()))
       .subscribe();
 
+    this.selectedCard$
+      .pipe(
+        tap((card: CardEntity | undefined) =>
+          this.router.navigate([], { queryParams: { timestamp: card?.id }, queryParamsHandling: 'merge' })
+        ),
+        tap((card: CardEntity | undefined) => {
+          this.isCardSelected = !!card;
+          this.center = !!card
+            ? [+card.satelliteState!.iss_position.longitude, +card.satelliteState!.iss_position.latitude]
+            : this.rtLocation;
+        })
+      )
+      .subscribe();
+
     this.satelliteLocation$
       .pipe(
         filter<any>(Boolean),
-        tap((center: LngLatLike) => this.mainMapBox.flyTo({ center }))
+        tap((center: LngLatLike) => (!this.isCardSelected ? (this.center = center) : (this.rtLocation = center)))
       )
       .subscribe();
   }

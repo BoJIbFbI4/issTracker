@@ -1,5 +1,33 @@
-<!--<ng-scrollbar id="tableWrapper" thumbClass="scrollbar-thumb" track="vertical" trackClass="scrollbar" visibility="hover">
-  <div fxFlexFill fxLayoutAlign="flex-start center" fxLayoutGap="1rem grid" id="cardWrapper">
-    <app-save-location-button fxFlex="10" fxFlex.lt-lg="33" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxFlex.lt-xl="25"></app-save-location-button>
-  </div>
-</ng-scrollbar>-->
+<ng-container *ngIf="cards$ | async as data">
+  <table [dataSource]="data" class="mat-elevation-z8" fxFill mat-table>
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell>Id.</th>
+      <td *matCellDef="let element" mat-cell>{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell>Name</th>
+      <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th *matHeaderCellDef mat-header-cell>Date</th>
+      <td *matCellDef="let element" mat-cell>
+        {{ element.create_time | date: 'shortDate' }} - {{ element.create_time | date: 'shortTime' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="latitude">
+      <th *matHeaderCellDef mat-header-cell>Latitude</th>
+      <td *matCellDef="let element" mat-cell>{{ element.satelliteState.iss_position.latitude }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="longitude">
+      <th *matHeaderCellDef mat-header-cell>Longitude</th>
+      <td *matCellDef="let element" mat-cell>{{ element.satelliteState.iss_position.longitude }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+</ng-container>

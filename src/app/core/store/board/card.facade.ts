@@ -13,7 +13,10 @@ import * as CardSelectors from './card.selectors';
 @Injectable()
 export class CardFacade {
   cards$: Observable<CardEntity[]> = this.store.pipe(select(CardSelectors.selectCards));
+  filteredCards$: Observable<CardEntity[]> = this.store.pipe(select(CardSelectors.filteredCards));
   selectCardCreateRun$: Observable<boolean> = this.store.pipe(select(CardSelectors.selectCardCreateRun));
+  selectedCard$: Observable<CardEntity | undefined> = this.store.pipe(select(CardSelectors.selectedCard));
+  lastRemovedCard$: Observable<CardEntity | undefined> = this.store.pipe(select(CardSelectors.lastRemovedCard));
 
   cardsLoadError$ = this.store.pipe(select(CardSelectors.selectCardsLoadError));
 
@@ -36,7 +39,7 @@ export class CardFacade {
 
   constructor(private readonly actions: Actions, private readonly store: Store<CardState>) {}
 
-  card$ = (id: number): Observable<CardEntity | null> => this.store.pipe(select(CardSelectors.selectCard(id)));
+  // card$ = (id: number): Observable<CardEntity | undefined> => this.store.pipe(select(CardSelectors.selectCard(id)));
 
   clear(): void {
     this.dispatch(CardActions.clearCards());
@@ -60,6 +63,14 @@ export class CardFacade {
 
   changeCard(payload: CardEntity): void {
     this.dispatch(CardActions.changeCard({ payload }));
+  }
+
+  selectCard(payload: CardEntity | undefined): void {
+    this.dispatch(CardActions.setSelectedCard({ payload }));
+  }
+
+  cardFilter(payload: string): void {
+    this.dispatch(CardActions.setFilter({ payload }));
   }
 
   private dispatch(action: Action): void {

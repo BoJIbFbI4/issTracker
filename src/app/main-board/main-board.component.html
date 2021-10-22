@@ -1,13 +1,9 @@
-<!--<ng-scrollbar id="tableWrapper" thumbClass="scrollbar-thumb" track="vertical" trackClass="scrollbar" visibility="hover">
-  <div fxFlexFill fxLayoutAlign="flex-start center" fxLayoutGap="1rem grid" id="cardWrapper">
-    <app-save-location-button fxFlex="10" fxFlex.lt-lg="33" fxFlex.lt-md="50" fxFlex.lt-sm="100" fxFlex.lt-xl="25"></app-save-location-button>
-  </div>
-</ng-scrollbar>-->
 <mgl-map
   (mapLoad)="initMainMap($event)"
   [antialias]="false"
   [attributionControl]="false"
   [centerWithPanTo]="true"
+  [center]="center"
   [crossSourceCollisions]="false"
   [cursorStyle]="cursorStyle$?.value"
   [doubleClickZoom]="false"
@@ -15,7 +11,7 @@
   [id]="'mainMapBox'"
   [interactive]="false"
   [minZoom]="3"
-  [movingMethod]="'easeTo'"
+  [movingMethod]="'flyTo'"
   [preserveDrawingBuffer]="false"
   [renderWorldCopies]="true"
   [style]="'mapbox://styles/mapbox/dark-v10'"
@@ -23,17 +19,24 @@
   fxFill
   oncontextmenu="return false;"
 >
-  <ng-container *ngIf="!!(satelliteState$ | async) && (satelliteState$ | async) as satelliteState">
-    <mgl-image (imageLoaded)="imageLoaded = true" [url]="SATELLITE_ICON" id="ds"></mgl-image>
-    <mgl-geojson-source [data]="satelliteState | dsLocation" [id]="'satellite__location__source'"></mgl-geojson-source>
-    <mgl-layer
-      *ngIf="imageLoaded"
-      [before]=""
-      [id]="'satellite__location'"
-      [layout]="{ 'icon-image': 'ds', 'icon-size': 0.1, 'icon-rotate': 180 }"
-      [source]="'satellite__location__source'"
-      type="symbol"
-    ></mgl-layer>
+  <mgl-image (imageLoaded)="satelliteImgLoaded = true" [url]="SATELLITE_ICON" id="satellite"></mgl-image>
+  <!--  <mgl-geojson-source [data]="satelliteState$ | async | dsLocation" [id]="'satellite__location__source'"></mgl-geojson-source>
+                  <mgl-layer
+                    *ngIf="satelliteImgLoaded"
+                    [before]=""
+                    [id]="'satellite__location'"
+                    [layout]="{ 'icon-image': 'satellite', 'icon-size': 0.1, 'icon-rotate': 180 }"
+                    [source]="'satellite__location__source'"
+                    type="symbol"
+                  ></mgl-layer>-->
+
+  <ng-container *ngIf="center">
+    <mgl-marker [lngLat]="center" pitchAlignment="map" rotationAlignment="map">
+      <picture id="satelliteIcon">
+        <source [srcset]="SATELLITE_ICON" />
+        <img alt="satellite" />
+      </picture>
+    </mgl-marker>
   </ng-container>
 </mgl-map>
 

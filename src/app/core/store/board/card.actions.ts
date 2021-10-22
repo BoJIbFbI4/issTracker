@@ -43,3 +43,11 @@ export const changeCardCancel = createAction('[Card] Change Card Cancel');
 export const changeCardSuccess = createAction('[Card] Change Card Success', payload<CardEntity>());
 
 export const changeCardFailure = createAction('[Card] Change Card Failure', payload<any>());
+
+export const setSelectedCard = createAction('[Card] Set selected', payload<CardEntity | undefined>());
+
+export const setFilter = createAction('[Card] Set filter', payload<string>());
+
+export const filterCardsSuccess = createAction('[Card] Filter Cards Success', payload<CardEntity[]>());
+
+export const filterCardsFailure = createAction('[Card] Filter Cards Failure', payload<any>());

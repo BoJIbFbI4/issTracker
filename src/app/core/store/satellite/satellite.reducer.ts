@@ -21,7 +21,7 @@ export const cardAdapter: EntityAdapter<SatelliteEntity> = createEntityAdapter<S
   selectId: (card) => card.timestamp,
 });
 
-export const cardInitialState: SatelliteState = cardAdapter.getInitialState({
+export const satelliteInitialState: SatelliteState = cardAdapter.getInitialState({
   satelliteState: null,
   satelliteLocation: [0, 0],
   satelliteStateLoadError: null,
@@ -29,7 +29,7 @@ export const cardInitialState: SatelliteState = cardAdapter.getInitialState({
 });
 
 export const reducer = createReducer(
-  cardInitialState,
+  satelliteInitialState,
   on(SatelliteActions.loadSatelliteState, (state, { type }) => ({
     ...state,
     satelliteStateLoadRun: true,

@@ -1,10 +1,79 @@
-::ng-deep .ng-scroll-content {
-  //display: flex !important;
-  //min-width: 100%;
-  //flex-wrap: wrap;
-  //padding: 1rem;
+@import '~stylesheets/utils';
+
+:host {
+  padding: 1rem;
 }
 
-#cardWrapper {
-  flex-wrap: wrap;
+::ng-deep {
+  app-report-board {
+    --border-cell: 0.15rem solid #202227;
+
+    .mat-table,
+    .mat-paginator {
+      background: $table-background !important;
+    }
+
+    tr.mat-header-row {
+      height: 32px;
+    }
+
+    tr.mat-row,
+    tr.mat-footer-row {
+      height: 68px;
+      background: $cell-background;
+
+      td.mat-cell {
+        border-top: var(--border-cell);
+        border-bottom: var(--border-cell);
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: $cell-selected-background;
+        box-shadow: none;
+        border: none;
+
+        td.mat-cell {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
+
+    thead {
+      background: #27292e !important;
+    }
+  }
+}
+
+th.mat-header-cell {
+  border-bottom: none;
+}
+
+td.mat-cell {
+  border-bottom: $cell-border;
+}
+
+td.mat-cell:first-child,
+th.mat-header-cell:first-child {
+  /* row border */
+  border-radius: 3px 0 0 3px;
+}
+
+td.mat-cell:last-child,
+th.mat-header-cell:last-child {
+  /* row border */
+  border-radius: 0 3px 3px 0;
+}
+
+table {
+  /* row spacing / margin */
+  @include transparent;
+  //border-spacing: 0 0.125rem !important;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  overflow: hidden;
 }

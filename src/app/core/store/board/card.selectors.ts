@@ -22,3 +22,8 @@ export const selectCardCreateRun = createSelector(selectCardState, (state) => st
 
 export const selectCard = (id: number) =>
   createSelector(selectCardsEntities, (dictionary: Dictionary<CardEntity>) => dictionary[id] ?? null);
+
+export const selectedCard = createSelector(selectCardState, (state) => state.selectedCard);
+
+export const lastRemovedCard = createSelector(selectCardState, (state) => state.lastRemovedCard);
+export const filteredCards = createSelector(selectCardState, (state) => state.filteredCards);

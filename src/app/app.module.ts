@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardStateModule } from './core/store/board/card-state.module';
 import { SatelliteStateModule } from './core/store/satellite/satellite-state.module';
+import { SettingsStateModule } from './core/store/settings/settings-state.module';
 import { SaveLocationButtonModule } from './shared/ui/save-location-button/save-location-button.module';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { SaveLocationButtonModule } from './shared/ui/save-location-button/save-
       }
     ),
     SatelliteStateModule,
+    SettingsStateModule,
     CardStateModule,
     SaveLocationButtonModule,
     EffectsModule.forRoot(),

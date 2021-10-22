@@ -1,28 +1,28 @@
 <mat-card fxFlex="auto" fxLayout="column" fxLayoutGap="2rem">
   <custom-spinner *ngIf="selectCardCreateRun$ | async"></custom-spinner>
-  <mat-card-content fxFlex="auto" fxLayout="column" fxLayoutGap="2rem">
+  <mat-card-content fxFlex="auto" fxLayout="column">
     <div fxFlex="auto" fxLayout="column">
       <mat-label>Give a name</mat-label>
       <mat-form-field appearance="outline">
-        <input [autocomplete]="false" [formControl]="nameControl" matInput />
+        <input (keydown.enter)="saveBtn._getHostElement().click()" [autocomplete]="false" [formControl]="nameControl" matInput />
         <mat-error>{{ nameControl.errors | readError: 'name' }}</mat-error>
       </mat-form-field>
     </div>
 
     <!--IN CASE WE NEED DESCRIPTION-->
     <!--    <div fxFlex="auto" fxLayout="column">
-              <mat-label>What do u gonna save?</mat-label>
-              <mat-form-field appearance="outline">
-                <textarea [formControl]="contentControl" cdkTextareaAutosize matInput></textarea>
-                <mat-error>{{ contentControl.errors | readError: 'content' }}</mat-error>
-              </mat-form-field>
-            </div>-->
+                                  <mat-label>What do u gonna save?</mat-label>
+                                  <mat-form-field appearance="outline">
+                                    <textarea [formControl]="contentControl" cdkTextareaAutosize matInput></textarea>
+                                    <mat-error>{{ contentControl.errors | readError: 'content' }}</mat-error>
+                                  </mat-form-field>
+                                </div>-->
   </mat-card-content>
-
-  <mat-divider></mat-divider>
 
   <mat-card-actions align="end">
     <button mat-dialog-close mat-stroked-button>Close</button>
-    <button (click)="onPost()" [disabled]="!nameControl.valid || !nameControl.dirty" color="accent" mat-stroked-button>Post</button>
+    <button #saveBtn (click)="onPost()" [disabled]="!nameControl.valid || !nameControl.dirty" color="accent" mat-stroked-button>
+      Post
+    </button>
   </mat-card-actions>
 </mat-card>

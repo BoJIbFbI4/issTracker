@@ -3,8 +3,12 @@
 :host {
   @include h-100;
   @include w-100;
+  padding: 1rem;
+  position: relative;
 }
 
-#cardWrapper {
-  flex-wrap: wrap;
+#satelliteIcon > img {
+  height: 64px;
+  width: 64px;
+  transform: rotate(180deg);
 }

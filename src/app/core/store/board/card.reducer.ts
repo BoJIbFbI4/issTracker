@@ -2,20 +2,27 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { sortByDate } from '../../../shared/utils/sortByDate';
 import { CardEntity } from '../../models/card.model';
-
 import * as CardActions from './card.actions';
 
 export const CARD_FEATURE_KEY = 'card';
 
 export interface CardState extends EntityState<CardEntity> {
+  selectedCard: CardEntity | undefined;
+
   cardsLoadError: any;
   cardsLoadRun: boolean;
+
+  filteredCards: CardEntity[];
+  cardsFilterError: any;
+  cardsFilterRun: boolean;
 
   cardCreateError: any;
   cardCreateRun: boolean;
 
   cardsRemoveError: any;
   cardsRemoveRun: boolean;
+
+  lastRemovedCard: CardEntity | undefined;
 }
 
 export interface CardPartialState {
@@ -28,8 +35,13 @@ export const cardAdapter: EntityAdapter<CardEntity> = createEntityAdapter<CardEn
 });
 
 export const cardInitialState: CardState = cardAdapter.getInitialState({
+  selectedCard: undefined,
+  lastRemovedCard: undefined,
   cardsLoadError: null,
   cardsLoadRun: false,
+  filteredCards: [],
+  cardsFilterError: null,
+  cardsFilterRun: false,
   cardCreateError: null,
   cardCreateRun: false,
   cardsRemoveError: null,
@@ -38,6 +50,24 @@ export const cardInitialState: CardState = cardAdapter.getInitialState({
 
 export const reducer = createReducer(
   cardInitialState,
+  on(CardActions.setSelectedCard, (state, { type, payload }) => ({
+    ...state,
+    selectedCard: state.selectedCard?.id !== payload?.id ? payload : undefined,
+  })),
+  on(CardActions.setFilter, (state, { type, payload }) => ({
+    ...state,
+    cardsFilterRun: true,
+  })),
+  on(CardActions.filterCardsSuccess, (state, { payload }) => ({
+    ...state,
+    filteredCards: payload,
+    cardsFilterRun: false,
+  })),
+  on(CardActions.filterCardsFailure, (state, { payload }) => ({
+    ...state,
+    cardsFilterError: payload,
+    cardsFilterRun: false,
+  })),
   on(CardActions.loadCards, (state) => ({
     ...state,
     cardsLoadError: null,
@@ -54,11 +84,7 @@ export const reducer = createReducer(
     cardsLoadError: payload,
     cardsLoadRun: false,
   })),
-  on(CardActions.clearCards, (state) =>
-    cardAdapter.removeAll({
-      ...state,
-    })
-  ),
+  on(CardActions.clearCards, (state) => cardAdapter.removeAll(state)),
   on(CardActions.removeCard, (state, { payload }) =>
     cardAdapter.updateOne(
       {
@@ -71,7 +97,7 @@ export const reducer = createReducer(
       }
     )
   ),
-  on(CardActions.removeCardSuccess, (state, { payload }) => cardAdapter.removeOne(payload.id, state)),
+  on(CardActions.removeCardSuccess, (state, { payload }) => cardAdapter.removeOne(payload.id, { ...state, lastRemovedCard: payload })),
   on(CardActions.removeCardFailure, (state, { payload }) =>
     cardAdapter.updateOne(
       {
@@ -90,13 +116,12 @@ export const reducer = createReducer(
     cardCreateError: null,
     cardCreateRun: true,
   })),
-  on(CardActions.addCardSuccess, (state, { payload }) => {
-    console.log(state, payload);
-    return cardAdapter.addOne(payload, {
+  on(CardActions.addCardSuccess, (state, { payload }) =>
+    cardAdapter.addOne(payload, {
       ...state,
       cardCreateRun: false,
-    });
-  }),
+    })
+  ),
   on(CardActions.addCardFailure, (state, { payload }) => ({
     ...state,
     cardCreateError: payload,

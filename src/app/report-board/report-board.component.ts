@@ -1,38 +1,33 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CardEntity } from '../core/models/card.model';
+import { CardFacade } from '../core/store/board/card.facade';
+import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
 
 @Component({
-  selector: 'app-main-board',
+  selector: 'app-report-board',
   templateUrl: './report-board.component.html',
   styleUrls: ['./report-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [Destroy],
 })
 export class ReportBoardComponent implements OnInit, AfterViewInit {
-  constructor(private readonly $destroy: Destroy) {}
+  displayedColumns: string[] = ['id', 'name', 'date', 'latitude', 'longitude'];
+  cards$: Observable<CardEntity[]>;
+
+  constructor(
+    private readonly $destroy: Destroy,
+    private readonly settingsFacade: SettingsFacade,
+    private readonly cardFacade: CardFacade
+  ) {
+    this.cards$ = cardFacade.filteredCards$.pipe(takeUntil(this.$destroy));
+  }
 
   ngOnInit(): void {
-    // this.cards$.pipe(tap((c) => console.warn(c))).subscribe();
+    this.settingsFacade.setSelectedTab('report');
   }
 
-  ngAfterViewInit(): void {
-    /*  this.route.queryParams
-				.pipe(
-					takeUntil(this.$destroy),
-					take(1),
-					// first((params) => !!params?.id),
-					withLatestFrom(this.cards$),
-					map(([{ id }, cards]) => <CardEntity>_.find(cards, { id: +id })),
-					tap((card: CardEntity) =>
-						!!card
-							? this.dialog.open(MainCardComponent, {
-									data: {
-										card,
-									},
-								})
-							: this.router.navigate([], { queryParamsHandling: '' })
-					)
-				)
-				.subscribe();*/
-  }
+  ngAfterViewInit(): void {}
 }

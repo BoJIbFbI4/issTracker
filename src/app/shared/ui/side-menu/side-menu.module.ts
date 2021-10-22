@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { CardPreviewModule } from '../card-preview/card-preview.module';
@@ -23,6 +24,7 @@ import { SideMenuComponent } from './side-menu.component';
     ReactiveFormsModule,
     MatInputModule,
     MainCardModule,
+    MatIconModule,
   ],
 })
 export class SideMenuModule {}

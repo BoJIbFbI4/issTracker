@@ -19,6 +19,6 @@ mat-card {
   padding: 0;
 }
 
-mat-divider {
-  position: relative !important;
+.mat-card-actions {
+  @include m-0;
 }

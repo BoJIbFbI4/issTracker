@@ -12,11 +12,15 @@ import { CardFacade } from '../../../core/store/board/card.facade';
 })
 export class CardPreviewComponent implements OnInit {
   @Input() card!: CardEntity;
+  @Input() isSelected!: boolean;
 
   constructor(private readonly dialog: MatDialog, private readonly router: Router, private readonly cardFacade: CardFacade) {}
 
   ngOnInit(): void {}
 
-  selectCard = (card: CardEntity) => {};
-  requestDelete = () => this.cardFacade.removeCard(<CardEntity>this.card);
+  selectCard = (card: CardEntity | undefined) => this.cardFacade.selectCard(card);
+  requestDelete = (card: CardEntity) => {
+    this.isSelected && this.selectCard(undefined);
+    this.cardFacade.removeCard(card);
+  };
 }

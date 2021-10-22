@@ -168,3 +168,7 @@ snack-bar-container {
   @include notification-style();
   border-radius: 5px 5px 0 0 !important;
 }
+
+mat-icon {
+  cursor: pointer;
+}
