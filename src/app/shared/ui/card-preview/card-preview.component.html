@@ -4,8 +4,7 @@
     {{ card.name }}
   </mat-card-title>
   <mat-card-content *ngIf="card.satelliteState as state" fxFlex="0 0 auto" fxLayout="column" fxLayoutGap="4px">
-    <span>Timestamp: {{ card.create_time | date: 'shortDate' }} - {{ card.create_time | date: 'shortTime' }}</span>
-    <span>latitude: {{ state.iss_position.latitude }}</span>
-    <span>longitude: {{ state.iss_position.longitude }}</span>
+    <span>Lat: {{ state.iss_position.latitude }}, Lon: {{ state.iss_position.longitude }}</span>
+    <span>Date: {{ card.create_time | date: 'shortDate' }} - {{ card.create_time | date: 'shortTime' }}</span>
   </mat-card-content>
 </mat-card>
