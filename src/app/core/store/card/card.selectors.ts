@@ -1,6 +1,6 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as _ from 'lodash';
+import { find } from 'lodash';
 import { CardEntity } from '../../models/card.model';
 import { selectQueryParams } from '../router/router.selectors';
 
@@ -30,6 +30,8 @@ export const selectCard = (id: number) =>
 export const lastRemovedCard = createSelector(selectCardState, (state) => state.lastRemovedCard);
 export const filteredCards = createSelector(selectCardState, (state) => state.filteredCards);
 
-export const getSelectedCard = createSelector(selectCards, selectQueryParams, (cards, { id }) => _.find(cards, { id: +id }));
+// export const getSelectedCard = createSelector(selectCards, selectQueryParams, (cards, { id }) => cards[id]);
+export const getSelectedCard = createSelector(selectCards, selectQueryParams, (cards, { id }) => find(cards, { id: +id }));
+export const getCardFilter = createSelector(selectQueryParams, ({ filter }) => filter || '');
 // export const filteredCards = createSelector(selectCards, selectQueryParams, (cards, { filter }) =>
 // _.filter(card, (card) => card.name.trim().toLowerCase().includes(filter.trim().toLowerCase()));

@@ -20,3 +20,7 @@ mat-drawer-content {
 ::ng-deep .mat-drawer-transition .mat-drawer-content {
   transition-duration: 0s !important;
 }
+
+mat-drawer {
+  @include shadow;
+}

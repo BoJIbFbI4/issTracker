@@ -16,10 +16,12 @@ const routes: Routes = [
 
       {
         path: NavigationPath.Map,
+        data: { id: NavigationPath.Map },
         loadChildren: (): Promise<any> => import('./main-board/main-board.module').then((modules) => modules.MainBoardModule),
       },
       {
         path: NavigationPath.Report,
+        data: { id: NavigationPath.Report },
         loadChildren: (): Promise<any> => import('./report-board/report-board.module').then((modules) => modules.ReportBoardModule),
       },
     ],

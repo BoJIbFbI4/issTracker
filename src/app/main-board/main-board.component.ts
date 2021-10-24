@@ -7,7 +7,6 @@ import { CardEntity } from '../core/models/card.model';
 import { SatelliteEntity } from '../core/models/satellite.interface';
 import { CardFacade } from '../core/store/card/card.facade';
 import { SatelliteFacade } from '../core/store/satellite/satellite.facade';
-import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
 
 @Component({
@@ -72,7 +71,6 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     private readonly $destroy: Destroy,
     private readonly satelliteFacade: SatelliteFacade,
     private readonly cardFacade: CardFacade,
-    private readonly settingsFacade: SettingsFacade,
     private readonly router: Router
   ) {
     this.satelliteState$ = satelliteFacade.satelliteState$.pipe(takeUntil($destroy));
@@ -80,10 +78,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     this.selectedCard$ = cardFacade.selectedCard$.pipe(takeUntil($destroy));
   }
 
-  ngOnInit(): void {
-    this.settingsFacade.setSelectedTab('map');
-    // this.cards$.pipe(tap((c) => console.warn(c))).subscribe();
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {}
 

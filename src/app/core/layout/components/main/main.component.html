@@ -1,7 +1,7 @@
 <app-header></app-header>
 <main fxFlex="auto" fxLayout="column">
   <nav [backgroundColor]="'accent'" mat-tab-nav-bar>
-    <a (click)="listenChanges()" *ngFor="let link of LINKS" [routerLinkActive]="'active'" [routerLink]="[link.id]" mat-tab-link>
+    <a *ngFor="let link of LINKS" [routerLinkActive]="'active'" [routerLink]="[link.id]" mat-tab-link>
       {{ link.name }}
     </a>
   </nav>

@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { CardEntity } from '../../../core/models/card.model';
 import { CardFacade } from '../../../core/store/card/card.facade';
 import { Destroy } from '../../services/destroy.service';
@@ -25,6 +25,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   cardAdded$: Observable<CardEntity>;
   cardRemoved$: Observable<CardEntity>;
   cardRestored$: Observable<CardEntity>;
+  cardFilterValue$: Observable<string>;
 
   constructor(
     private readonly cardFacade: CardFacade,
@@ -41,6 +42,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     this.cardAdded$ = cardFacade.cardAdded$.pipe(takeUntil($destroy));
     this.cardRestored$ = cardFacade.cardRestored$.pipe(takeUntil($destroy));
     this.cardRemoved$ = cardFacade.cardRemoved$.pipe(takeUntil($destroy));
+    this.cardFilterValue$ = cardFacade.cardFilterValue$.pipe(takeUntil($destroy));
   }
 
   @HostListener('document:keydown.control.z', ['$event']) onKeydownHandler(event: KeyboardEvent) {
@@ -49,14 +51,20 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.cardFilterValue$
+      .pipe(
+        tap((filter) => {
+          this.cardFacade.cardFilter(filter);
+          this.filterControl.setValue(filter);
+        })
+      )
+      .subscribe();
+
     this.filterControl.valueChanges
       .pipe(
         debounceTime(222),
-        tap((filter) =>
-          this.router
-            .navigate([], { queryParams: { filter: filter || null }, queryParamsHandling: 'merge' })
-            .then(() => this.cardFacade.cardFilter(filter))
-        )
+        distinctUntilChanged(),
+        tap((filter) => this.router.navigate([], { queryParams: { filter: filter || null }, queryParamsHandling: 'merge' }))
       )
       .subscribe();
 
@@ -94,16 +102,5 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   revertCard = () => this.cardFacade.revertCard(<CardEntity>this.lastRemovedCard);
 
-  ngAfterViewInit(): void {
-    combineLatest([this.route.queryParams, this.cards$])
-      .pipe(
-        // filter<any>(Boolean),
-        first(),
-        tap(([params, cards]: [any, CardEntity[]]) => {
-          // params?.id && this.cardFacade.selectCard(_.find(cards, { id: +params.id }));
-          this.filterControl.setValue(params.filter || '');
-        })
-      )
-      .subscribe();
-  }
+  ngAfterViewInit(): void {}
 }

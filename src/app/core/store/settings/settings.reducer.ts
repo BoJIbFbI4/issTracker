@@ -1,5 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
-import * as SettingsActions from './settings.actions';
+import { createReducer } from '@ngrx/store';
 
 export const SETTINGS_FEATURE_KEY = 'settings';
 
@@ -14,7 +13,4 @@ export interface SettingsPartialState {
 export const settingsInitialState: SettingsState = {
   selectedTab: 'map',
 };
-export const reducer = createReducer(
-  settingsInitialState,
-  on(SettingsActions.setSelectedTab, (state, { type, payload }) => ({ ...state, selectedTab: payload }))
-);
+export const reducer = createReducer(settingsInitialState);

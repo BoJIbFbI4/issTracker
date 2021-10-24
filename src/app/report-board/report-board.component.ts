@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CardEntity } from '../core/models/card.model';
 import { CardFacade } from '../core/store/card/card.facade';
-import { SettingsFacade } from '../core/store/settings/settings.facade';
 import { Destroy } from '../shared/services/destroy.service';
 
 @Component({
@@ -17,17 +16,11 @@ export class ReportBoardComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'date', 'latitude', 'longitude'];
   cards$: Observable<CardEntity[]>;
 
-  constructor(
-    private readonly $destroy: Destroy,
-    private readonly settingsFacade: SettingsFacade,
-    private readonly cardFacade: CardFacade
-  ) {
+  constructor(private readonly $destroy: Destroy, private readonly cardFacade: CardFacade) {
     this.cards$ = cardFacade.filteredCards$.pipe(takeUntil(this.$destroy));
   }
 
-  ngOnInit(): void {
-    this.settingsFacade.setSelectedTab('report');
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {}
 }

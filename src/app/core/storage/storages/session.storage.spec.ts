@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
 
 import { SessionStorage } from './session.storage';
@@ -9,6 +10,7 @@ describe('SessionStorage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [SessionStorage],
     }).compileComponents();
 
