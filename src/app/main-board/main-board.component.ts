@@ -100,7 +100,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
         // tap((card: CardEntity | undefined) => this.router.navigate([], { queryParams: { id: card?.id }, queryParamsHandling: 'merge' })),
         tap((card: CardEntity | undefined) => {
           this.isCardSelected = !!card;
-          this.center = !!card
+          this.center = !!card?.satelliteState
             ? [+card.satelliteState!.iss_position.longitude, +card.satelliteState!.iss_position.latitude]
             : this.rtLocation;
         })
