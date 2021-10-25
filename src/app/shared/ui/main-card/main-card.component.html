@@ -1,5 +1,5 @@
 <mat-card fxFlex="auto" fxLayout="column" fxLayoutGap="2rem">
-  <custom-spinner *ngIf="selectCardCreateRun$ | async"></custom-spinner>
+  <custom-spinner *ngIf="selectCardCreateRun$ | ngrxPush"></custom-spinner>
   <mat-card-content fxFlex="auto" fxLayout="column">
     <div fxFlex="auto" fxLayout="column">
       <mat-label>Give a name</mat-label>

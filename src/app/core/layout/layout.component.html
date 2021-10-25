@@ -1,5 +1,5 @@
 <mat-drawer-container class="example-container" fxFlexFill>
-  <mat-drawer [fxFlex]="'400px'" [opened]="(selectedTab$ | async) === 'map'" autosize disableClose mode="side">
+  <mat-drawer [fxFlex]="'400px'" [opened]="(selectedTab$ | ngrxPush) === 'map'" autosize disableClose mode="side">
     <app-side-menu></app-side-menu>
   </mat-drawer>
 

@@ -40,6 +40,6 @@
   </ng-container>
 </mgl-map>
 
-<ng-container *ngIf="!!(satelliteState$ | async) && (satelliteState$ | async) as satelliteState">
+<ng-container *ngIf="!!(satelliteState$ | ngrxPush) && (satelliteState$ | ngrxPush) as satelliteState">
   <app-save-location [satelliteState]="satelliteState"></app-save-location>
 </ng-container>

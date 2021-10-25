@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { NewCardModule } from '../../utils/pipes/readFormError/readFormError.module';
 import { CustomSpinnerModule } from '../custom-spinner/custom-spinner.module';
 import { MainCardComponent } from './main-card.component';
@@ -31,6 +32,7 @@ import { MainCardComponent } from './main-card.component';
     MatDividerModule,
     MatDialogModule,
     CustomSpinnerModule,
+    ReactiveComponentModule,
   ],
   providers: [
     {

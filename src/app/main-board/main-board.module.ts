@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { SaveLocationButtonModule } from '../shared/ui/save-location-button/save-location-button.module';
@@ -18,6 +19,7 @@ import { GenerateSatelliteLocationPipe } from './utils/generateSatelliteLocation
     FlexModule,
     MainBoardRouting,
     SaveLocationButtonModule,
+    ReactiveComponentModule,
   ],
 })
 export class MainBoardModule {}

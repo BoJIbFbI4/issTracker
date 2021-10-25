@@ -15,8 +15,8 @@
 >
   <!--    (chartClick)='onChartClick($event)'-->
   <cdk-virtual-scroll-viewport [appendOnly]="true" [orientation]="'vertical'" class="no-overflow" itemSize="122" scrollViewport>
-    <ng-container *ngFor="let card of cards$ | async">
-      <app-card-preview [card]="card" [selectedCardId]="(selectedCard$ | async)?.id"></app-card-preview>
+    <ng-container *ngFor="let card of cards$ | ngrxPush">
+      <app-card-preview [card]="card" [selectedCardId]="(selectedCard$ | ngrxPush)?.id"></app-card-preview>
     </ng-container>
   </cdk-virtual-scroll-viewport>
 </ng-scrollbar>
